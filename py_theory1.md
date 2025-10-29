@@ -1381,3 +1381,38 @@ sort() automatically passes each element of the list to the function assigned to
     
     propertPerson = ProperHuman(100)
 ```
+
+# Encapsulation
+- Practice of hiding complexity inside a "black box"
+- The simplest example of encapsulation is a function - no need to know exactly what is happening inside it, we just 
+  need to know how to use it
+- encapsulation in Python is achieved mostly by convention rather than by force.
+
+# Public vs Private properties
+- by default all class properties and methods are public
+- they can be accessed simply by using "." operator
+
+Private data members are a way to encapsulate logic and data within a class definition.
+
+# Creating private properties
+- use two underscores
+
+```python
+  class Wall:
+    def __init__(self, armor, magic_resistance):
+      self.__armor = armor
+      self.__magic_resistance = magic_resistance
+  
+    def get_defense(self):
+      return self.__armor + self.__magic_resistance
+  
+  front_wall = Wall(10, 20)
+  
+  # This works
+  print(front_wall.get_defense())
+  # 30
+  
+  print(front_wall.__armor)
+  # AttributeError: 'Wall' object has no attribute '__armor'
+
+```

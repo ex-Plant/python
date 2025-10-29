@@ -1,26 +1,13 @@
-class Archer:
-    def __init__(self, name, health, num_arrows):
-      self.name = name
-      self.health = health
-      self.num_arrows = num_arrows
+class Wizard:
+    def __init__(self, name, stamina, intelligence):
+        self.__stamina = stamina
+        self.__intelligence = intelligence
+        self.name = name
+        self.health = self.__stamina * 100
+        self.mana = self.__intelligence * 10
 
-    def take_hit(self):
-        self.health -= 1
-        if self.health < 1:
-          raise Exception(f'{self.name} is dead ☠️')
 
-    def shoot(self, target):
-        if self.num_arrows < 1:
-          raise Exception(f"{self.name} can't shoot")
-        else:
-          self.num_arrows -= 1
-          print(f'{self.name} shoots {target.name}')
-          target.take_hit()
 
-    # don't touch below this line
+wizard1 = Wizard("Gandalf", 100, 10)
 
-    def get_status(self):
-        return self.name, self.health, self.num_arrows
-
-    def print_status(self):
-        print(f"{self.name} has {self.health} health and {self.num_arrows} arrows")
+print(wizard1.health)
