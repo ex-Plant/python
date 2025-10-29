@@ -1416,3 +1416,16 @@ Private data members are a way to encapsulate logic and data within a class defi
   # AttributeError: 'Wall' object has no attribute '__armor'
 
 ```
+
+# Abstraction
+*Abstraction* is about creating a simple interface to achieve a complex behavior. It focuses on what is exposed
+"making something easier to use by adding a layer on top"
+Abstraction focuses on exposing essential features while hiding complexity
+
+*Encapsulation* is about hiding internal state
+But basically they are almost the same thing.
+Encapsulation focuses on bundling data with methods and restricting direct access to implementation details
+
+# Object-Oriented Programming (OOP)
+- typically groups data and behavior into a single unit
+- programs as a model for the real world objects

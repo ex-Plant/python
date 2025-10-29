@@ -1,13 +1,51 @@
-class Wizard:
-    def __init__(self, name, stamina, intelligence):
-        self.__stamina = stamina
-        self.__intelligence = intelligence
-        self.name = name
-        self.health = self.__stamina * 100
-        self.mana = self.__intelligence * 10
+import random
 
 
+class DeckOfCards:
+    SUITS = ["Hearts", "Diamonds", "Clubs", "Spades"]
+    RANKS = [
+        "Ace",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "Jack",
+        "Queen",
+        "King",
+    ]
 
-wizard1 = Wizard("Gandalf", 100, 10)
+    def __init__(self):
+        self.__cards = []
+        self.create_deck()
 
-print(wizard1.health)
+    def create_deck(self):
+        deck = []
+        for suit in self.SUITS:
+            for rank in self.RANKS:
+                deck.append((rank, suit))
+        self.__cards = deck
+
+    def shuffle_deck(self):
+        random.shuffle(self.__cards)
+
+    def deal_card(self):
+#       print('deal_card', self.__cards)
+      if len(self.__cards) == 0:
+        return None
+      return self.__cards.pop()
+    # don't touch below this line
+
+    def __str__(self):
+        return f"The deck has {len(self.__cards)} cards"
+
+
+# cest = DeckOfCards()
+
+SUITS = ["Hearts", "Diamonds", "Clubs", "Spades"]
+
+print(random.shuffle(SUITS))
