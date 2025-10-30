@@ -1459,3 +1459,61 @@ then within we call another constructor making a child class a super set of a pa
 We should not overuse inheritance. Generally *we should make class inherit from other class only if they share all 
 parent class properties / methods.*
 A should only inherit from B if A is always a B.❗
+
+# Calling inherited method using super 
+```python
+    cost = super().get_trip_cost(distance, food_price)
+```
+
+```python
+    class Siege:
+        def __init__(self, max_speed, efficiency):
+            self.max_speed = max_speed
+            self.efficiency = efficiency
+    
+        def get_trip_cost(self, distance, food_price):
+            return (distance / self.efficiency) * food_price
+    
+        def get_cargo_volume(self):
+            pass
+    
+    class BatteringRam(Siege):
+        def __init__(
+            self,
+            max_speed,
+            efficiency,
+            load_weight,
+            bed_area,
+        ):
+            super().__init__(max_speed, efficiency)
+            self.load_weight = load_weight
+            self.bed_area  = bed_area
+    
+        def get_trip_cost(self, distance, food_price):
+            cost = super().get_trip_cost(distance, food_price)
+            return cost + self.load_weight * 0.01
+    
+        def get_cargo_volume(self):
+            return self.bed_area * 2
+```
+
+
+# Copying a list - copy
+To get a new copy of a list, use the copy() method. If you just do new_list = old_list, your new variable will just 
+be a *reference to the original list...* which is not what we want.
+
+```python
+    import copy
+
+    nums = [4, 3, 2, 1]
+    nums_copy = nums.copy()
+    # nums_copy is [4, 3, 2, 1]
+    
+```
+
+# Delete from a list
+```python
+    fruits = ["apple", "banana", "cherry", "kiwi"]
+    del fruits[1]
+    # fruits is ["apple", "cherry", "kiwi"]
+```
