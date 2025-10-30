@@ -1517,3 +1517,208 @@ be a *reference to the original list...* which is not what we want.
     del fruits[1]
     # fruits is ["apple", "cherry", "kiwi"]
 ```
+
+# Polymorphism
+"many form"
+Polymorphism is the ability of a variable, function or object to take on multiple forms.
+
+```python
+    class Creature():
+        def move(self):
+            print("the creature moves")
+    
+    class Dragon(Creature):
+        def move(self):
+            print("the dragon flies")
+    
+    class Kraken(Creature):
+        def move(self):
+            print("the kraken swims")
+    
+    for creature in [Creature(), Dragon(), Kraken()]:
+        creature.move()
+    # prints:
+    # the creature moves
+    # the dragon flies
+    # the kraken swims
+
+```
+In programming it is the ability to present the same interface meaning functions or methods signatures) for many 
+different underlying data types. 
+
+
+# Function signature
+includes name, input and outputs
+For example, hit_by_fire in the Human and Archer classes have identical signatures.
+
+```pyton
+    class Human:
+        def hit_by_fire(self):
+            self.health -= 5
+            return self.health
+    
+    class Archer:
+        def hit_by_fire(self):
+            self.health -= 10
+            return self.health
+```
+
+# max() / min()
+```python
+    return max(self.__y1, self.__y2)     
+```
+
+# Using instance of a class that is define below in the code
+*23_polymorphism for reference*
+we are creating an instance based on the class declaration below in the code.
+this i valid and works, because it is done within an instance method (in this case in constructor method).
+Code runs only when the method is called (e.g. when you create an instance).
+
+By that time, the entire file has already been executed top-to-bottom, so all classes and functions are defined — including Rectangle.
+
+If it was defined outside method it would cause NameError
+
+# Operator overloading
+Another kind of built-in polymorphism in Python is the ability to override how an operator works. For example, the + operator works for built-in types like integers and strings.
+
+```python
+    print(3 + 4)
+    # 7
+    
+    print("three " + "four")
+    # three four
+```
+
+❌ Will not work
+```python
+    class Point:
+        def __init__(self, x, y):
+            self.x = x
+            self.y = y
+    
+    
+    p1 = Point(4, 5)
+    p2 = Point(2, 3)
+    p3 = p1 + p2
+    # TypeError: unsupported operand type(s) for +: 'Point' and 'Point'
+```
+
+We can make it work by creating method
+ __add__(self, other)
+Python interpreter will use it when instances of the class are being added with the + operator.
+
+# ✅ now it works
+```python
+    class Point:
+        def __init__(self, x, y):
+            self.x = x
+            self.y = y
+    
+        def __add__(self, point):
+            x = self.x + point.x
+            y = self.y + point.y
+            return Point(x, y)
+    
+    p1 = Point(4, 5)
+    p2 = Point(2, 3)
+    p3 = p1 + p2
+    # p3 is (6, 8)
+```
+
+# practical example
+``` python
+      class Sword:
+          def __init__(self, sword_type):
+              self.sword_type = sword_type
+      
+          def __add__(self, other):
+              if self.sword_type == 'bronze' and other.sword_type == 'bronze':
+                  return Sword('iron')
+              if self.sword_type == 'iron' and other.sword_type == 'iron':
+                  return Sword('steel')
+              raise Exception('cannot craft')
+      
+      sword1 = Sword('bronze')
+      sword2 = Sword('bronze')
+      print((sword1 + sword2).sword_type)
+      # iron
+```
+
+# translations of operators into method names
+
+| Operation             | Operator | Special Method     |
+| Addition              | `+`       | `__add__`         |
+| Subtraction           | `-`       | `__sub__`         |
+| Multiplication        | `*`       | `__mul__`         |
+| Power                 | `**`      | `__pow__`         |
+| Division              | `/`       | `__truediv__`     |
+| Floor Division        | `//`      | `__floordiv__`    |
+| Remainder (modulo)    | `%`       | `__mod__`         |
+| Equality              | `==`      | `__eq__`          |
+| Greater               | `>`       | `__gt__`          |
+| Smaller               | `<`       | `__lt__`          |
+| Bitwise Left Shift    | `<<`      | `__lshift__`      |
+| Bitwise Right Shift   | `>>`      | `__rshift__`      |
+| Bitwise AND           | `&`       | `__and__`         |
+| Bitwise OR            | `|`       | `__or__`          |
+| Bitwise XOR           | `^`       | `__xor__`         |
+| Bitwise NOT           | `~`       | `__invert__`      |
+
+# __str__
+It takes no inputs but returns a string that will be printed to the console when someone passes an instance of the 
+class to Python's print() function:
+
+```python
+    class Point:
+        def __init__(self, x, y):
+            self.x = x
+            self.y = y
+    
+        def __str__(self):
+            return f"({self.x},{self.y})"
+    
+    p1 = Point(4, 5)
+    print(p1)
+    # prints "(4,5)"
+```
+
+The __repr__ method works similarly: the difference is that it's intended for use in debugging by developers, rather than in printing strings to end users.
+
+```python
+    class Dragon:
+        def __init__(self, name, color):
+            self.name = name
+            self.color = color
+
+        def __str__(self):
+            return f'I am {self.name}, the {self.color} dragon'
+    
+    smallDragon = Dragon('dragoniątko', 'golden')
+    print(smallDragon)
+    # I am dragoniątko, the golden dragon
+```
+
+# list.index(<value>)
+```python
+    fruits = ['apple', 'banana', 'cherry']
+    x = fruits.index("cherry")
+```
+
+# Virtual Environment (venv)
+ - a way to keep dependencies separate from other projects on our machine. Best practices are to keep separate 
+   virtual environment for each project
+
+```shell
+     uv init <project_name>
+     cd <project_name>
+     # Create a virtual environment at the top level of your project directory: 
+     uv venv
+     # Activate the virtual environment:
+     source .venv/bin/activate
+    
+    # Add pygame library to deps
+    uv add pygame==2.6.1
+    
+    # run
+    uv run -m pygame
+```

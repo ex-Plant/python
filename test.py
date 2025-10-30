@@ -1,45 +1,26 @@
-class Hero:
-    def __init__(self, name, health):
-        self.__name = name
-        self.__health = health
+SUITS = ["Clubs", "Diamonds", "Hearts", "Spades"]
 
-    def get_name(self):
-        return self.__name
+RANKS = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King", "Ace"]
+# RANKS_REVERSED = RANKS[::-1]
 
-    def get_health(self):
-        return self.__health
-
-    def take_damage(self, damage):
-        self.__health -= damage
+class Card:
+    def __init__(self, rank, suit):
+        self.rank = rank
+        self.suit = suit
+        self.rank_index = RANKS.index(rank)
+        self.suit_index = SUITS.index(suit)
 
 
-class ArcherHero(Hero):
-    def __init__(self, name, health, num_arrows):
-        super().__init__(name, health)
-        self.__num_arrows = num_arrows
+    def __eq__(self, other):
+        return self.suit_index == other.suit_index and self.rank_index == other.rank_index
 
-    def shoot(self, target):
-        if self.__num_arrows < 1:
-            raise Exception('not enough arrows')
-        self.__num_arrows -= 1
-        target.take_damage(10)
+    def __lt__(self, other):
+        return self.rank_index < other.rank_index or (self.rank_index == other.rank_index) and (self.suit_index < other.suit_index)
 
+    def __gt__(self, other):
+        return self.rank_index > other.rank_index or (self.rank_index == other.rank_index) and (self.suit_index > other.suit_index)
 
-class WizardHero(Hero):
-    def __init__(self, name, health, mana):
-      super().__init__(name, health)
-      self.__mana= mana
+    # don't touch below this line
 
-    def cast(self, target):
-      if self.__mana < 25:
-        raise Exception('not enough mana')
-      target.take_damage(25)
-      print('target health after attack', target.get_health() ) # 225
-
-
-h = WizardHero("Gandalf", 200, 1000)
-enemy = WizardHero("Saruman", 250, 500)
-
-h.cast(enemy)
-
-print(enemy.get_health())
+    def __str__(self):
+        return f"{self.rank} of {self.suit}"
