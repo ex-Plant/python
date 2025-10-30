@@ -1429,3 +1429,33 @@ Encapsulation focuses on bundling data with methods and restricting direct acces
 # Object-Oriented Programming (OOP)
 - typically groups data and behavior into a single unit
 - programs as a model for the real world objects
+
+
+# Inheritance
+Contrary to encapsulation or abstraction concepts that are common among programming languages, inheritance is 
+specific to OOP languages.
+Inheritance lets us get inherit or methods from parent classes this way avoiding code duplication.  
+
+```python 
+    class Human:
+      def __init__(self, name):
+        self.__name = name
+
+      def get_name(self):
+        return self.__name
+
+  class Archer(Human):
+      def __init__(self, name, num_arrows):
+        super().__init__(name)
+        self.__num_arrows = num_arrows
+  
+      def get_num_arrows(self):
+        return self.__num_arrows
+```
+
+# Super
+Super method is used to call on child class parent constructor. Effectively we are calling child constructor and 
+then within we call another constructor making a child class a super set of a parent. 
+We should not overuse inheritance. Generally *we should make class inherit from other class only if they share all 
+parent class properties / methods.*
+A should only inherit from B if A is always a B.❗

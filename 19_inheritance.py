@@ -34,6 +34,7 @@ class WizardHero(Hero):
       if self.__mana < 25:
         raise Exception('not enough mana')
       target.take_damage(25)
+      self.__mana =- 25
       print('target health after attack', target.get_health() ) # 225
 
 
@@ -41,5 +42,3 @@ h = WizardHero("Gandalf", 200, 1000)
 enemy = WizardHero("Saruman", 250, 500)
 
 h.cast(enemy)
-
-print(enemy.get_health())
