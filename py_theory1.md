@@ -1722,3 +1722,32 @@ The __repr__ method works similarly: the difference is that it's intended for us
     # run
     uv run -m pygame
 ```
+
+#  hasattr / getAttr 
+check if an object has an attribute or a method
+```py
+    myObj = SomeObj()
+    send_method = getAttr(myObj, "send", None)
+    
+    if callable(send_method):
+        send_method("Hello world!")
+    else:
+        print('No send method')         ć
+```
+
+# The same with TERNARY FORM
+<expression_if_true> if <condition> else <expression_if_false>
+
+```
+    myObj = SomeObj()
+    return myObj.send("Hello") if hasattr(myObj, "send") else "No send method"
+```
+
+# Exactly the same with try except
+```python3
+    myObj = SomeObj()
+    try: 
+        myObj.send()
+    except:
+        print('No send method')    
+```
