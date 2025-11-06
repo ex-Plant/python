@@ -997,7 +997,7 @@ The takeaway is that if you're on Python 3.7 or later, you'll be able to iterate
                     "talk_to_syl": {
                         "status": "Completed",
                     },
-                },
+                },  
             }
         }
     }
