@@ -1,5 +1,4 @@
 # Start from 1, with each iteration increase by 1 until you reach max than start decreasing by 1 until you get to 1.
-# Return the sum
 
 def countReps(max): 
     count = 0;

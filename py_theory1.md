@@ -965,6 +965,14 @@ use *not*
         print('empty dictionary')
 ```
 
+# GETTING KEY AND VALUE
+```python
+    d = {}
+    for key, value in d.items():
+        print(key, value)
+
+```
+
 # ORDERED VS UNORDERED DICTIONARY
 As of Python version 3.7, dictionaries are ordered. In Python 3.6 and earlier, dictionaries were unordered.
 
@@ -1750,4 +1758,47 @@ check if an object has an attribute or a method
         myObj.send()
     except:
         print('No send method')    
+```
+
+# String transformations
+
+# splitlines()
+Divides the string by lines - searches for '\n' and '\r\n'
+
+```python
+  for line in file_text.splitlines():
+```
+
+# startswith()
+```python
+    print('12345'.startswith('a')) 
+    # false
+```
+
+# strip()
+remove white spaces
+
+# string includes
+```python
+    print('k' in 'konrad')
+    # true
+```
+
+# find vs .index()
+Find will return -1 if not found
+```python
+   
+   index = '#'.find("#")
+    # 0
+    notFoundIndex = '$'.find('#')
+    -1
+```
+
+.index will raise exception if not found
+```python
+    found = '#'.index('#')
+    # 0
+
+    notFound = '$'.index('#')
+    # ❌ ValueError:
 ```

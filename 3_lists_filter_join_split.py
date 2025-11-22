@@ -25,13 +25,13 @@ def better_filter_messages(messages, wordToFilter):
   filteredCounter = 0
   for message in messages:
       filteredWords = []
-      messageWordsArr = singleMessage.split()
-      for word in messageWordsArr
+      messageWordsArr = message.split()
+      for word in messageWordsArr:
         if word == wordToFilter:
           filteredCounter += 1
         else:
-          filteredWords.append(single_word)
-    filteredMessages.append(" ".join(filteredWords))
+          filteredWords.append(word)
+  filteredMessages.append(" ".join(filteredWords))
   return filteredMessages, filteredCounter
 
 
