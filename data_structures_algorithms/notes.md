@@ -50,3 +50,26 @@ Five is a 'base'
 Two is the `exponent`
 
 Exponents grow very large very quickly
+
+# Geometric progression
+
+Each term is found by multiplying previous term by a fixed number.
+For example number of employees doubles each year.
+
+```text
+    total = a1 x r^n
+```
+
+a1 = number of employees
+r = 2 (because it doubles)
+n = number of years
+
+Let's say we start with 10 employees
+After 4 years we would have
+
+```text
+10 * 2 * 2 * 2 = 160
+total = 10 * 2**4
+2**4 = 16
+10* 16 = 160
+```
