@@ -240,14 +240,14 @@ We write like the following:
 
 Formula describes how run time or space requirements grows as the input size grows:
 
-- O(1) - constant
-- O(log n) - logarithmic
-- O(n) - linear
+- O(1) - constant `złożoność stała`
+- O(log n) - logarithmic - `złożoność logarytmiczna`
+- O(n) - linear - linearna
 - O(n log n) - linearithmic
 - O(n^2) - squared
 - O(n^3) - cubic
 - O(2^n) - exponential
-- O(n!) - factorial
+- O(n!) - factorial `złożoność silniowa`
 
 As the input size grows algorithms becomes slower to complete - `the rate at wich they become slower` is defined by their Big O category
 
@@ -317,3 +317,17 @@ def print_names_twice(names):
 ```
 
 In Big O analysis we drop all constants because while they affect the runtime, they don't affect the change in the runtime.
+
+# O(1) - Order one - `Duże O jeden`
+
+No matter the size of input, time complexity stays the same
+For example in python we can search an item within dictionary by it's key, and no matter the size it will always stay the same.
+
+`Dictionary lookups are O(1) ` - extremely efficient and a very good reason to choose dictionary as a data structure.
+
+💡 JavaScript objects also have O(1) average-case lookup time for property access.
+
+```js
+const obj = { name: "John", age: 30 };
+console.log(obj.name); // O(1) - hash table lookup
+```
