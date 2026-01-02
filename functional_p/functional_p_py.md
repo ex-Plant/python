@@ -315,5 +315,19 @@ def convert_line(line):
     if len(line) > 0 and line[0] == old_bullet:
         return new_bullet + line[1:]
     return line
+```
 
+# filter()
+
+Similar syntax like in map, behaviour same like in js.
+We can even use lambda inside like we would use a callback in
+
+```py
+def is_even(x):
+    return x % 2 == 0
+
+numbers = [1, 2, 3, 4, 5, 6]
+evens = list(filter(lambda x: x % 2 == 0, numbers))
+print(evens)
+# [2, 4, 6]
 ```
