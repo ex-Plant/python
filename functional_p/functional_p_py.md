@@ -202,7 +202,14 @@ result = number / 2 if number % 2 == 0 else (number * 3) + 1
 
 Like in js we should not overuse it as they tend to be hard to read
 
-# Functions as values
+# First Class functions
+
+`First class functions` means that a function in python can be treated like any other object
+
+- assigned to a value (functions as values)
+- passed as arguments to other functions
+- returned from a function
+- stored in a data structure
 
 In python functions are just values, so we can assign a function to a variable
 
@@ -214,4 +221,49 @@ sum_foo = foo
 print(sum_foo(2, 2)) # 4
 ```
 
-# Anonymous functions
+# Anonymous functions - lambda
+
+In python unnamed functions are called `lambda `
+Example of a functions that takes `x` as an argument and returns `x + 1`
+
+```py
+lambda x: x + 1
+```
+
+We can assing it to a variable
+
+```py
+addone = lambda x: x + 1
+```
+
+It is equivalent of:
+
+```js
+const addOne = (x) => x + 1;
+```
+
+Like in js result of a function expression is returned automaticaly.
+
+```py
+myDictionary = {
+    "name": "Konrad",
+    "age": "9"
+}
+
+get_age = lambda name: myDictionary.get(name)
+get_age = lambda name: myDictionary.get(name, 'not found')
+print(get_age('name')) # Konrad
+print(get_age('not found test ')) # not found
+```
+
+Example of function returned from another function
+
+```py
+def file_type_getter(file_extension_tuples):
+    file_extensions_dict = {}
+    for tup in file_extension_tuples:
+        for ext in tup[1]:
+            file_extensions_dict[ext] = tup[0]
+    return lambda ext: file_extensions_dict.get(ext, "Unknown")
+
+```
