@@ -267,3 +267,53 @@ def file_type_getter(file_extension_tuples):
     return lambda ext: file_extensions_dict.get(ext, "Unknown")
 
 ```
+
+# Higher order function
+
+`Function that takes another function as an argument`
+
+```py
+def square(x):
+    return x * x
+
+def my_map(func, args):
+    result = []
+    for arg in args:
+        result.append(func(arg))
+    return result
+
+squares = my_map(square, [1, 2, 3, 4] )
+```
+
+# map + list()
+
+map, filter and reduce are higher order functions
+
+```py
+def square(x):
+    return x * x
+
+nums = [1, 2, 3, 4]
+squared_nums = map(square, nums)
+print(list(squared_nums))
+print(map(square, [1, 2, 3, 4])) # This will not work <map object at 0x1004369a0>
+```
+
+Map returns a `map object` that is why we need a `list` constructor to convert it to list
+
+```py
+def change_bullet_style(document):
+    lines = document.split("\n")
+    converted = map(convert_line, lines )
+    return "\n".join(converted)
+
+# Don't edit below this line
+
+def convert_line(line):
+    old_bullet = "-"
+    new_bullet = "*"
+    if len(line) > 0 and line[0] == old_bullet:
+        return new_bullet + line[1:]
+    return line
+
+```

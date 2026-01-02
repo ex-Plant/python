@@ -1,11 +1,6 @@
+def square(x):
+    return x * x
 
-
-myDictionary = {
-    "name": "Konrad",
-    "age": "9"
-}
-
-get_age = lambda name: myDictionary.get(name)
-get_age = lambda name: myDictionary.get(name, 'not found')
-print(get_age('name')) # Konrad
-print(get_age('not found test ')) # not found
+nums = [1, 2, 3, 4]
+squared_nums = map(square, nums)
+print(list(squared_nums))
