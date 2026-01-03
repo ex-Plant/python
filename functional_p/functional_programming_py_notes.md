@@ -412,7 +412,7 @@ def add(x, y):
     # same result every time
 ```
 
-Example of unpure function:
+Example of impure function:
 
 ```python
 
@@ -438,8 +438,170 @@ Because we need side effects every now and then.
 - printing to the console
 - updating db
 - accessing internet
-- modyfing global variables
+- modyfing global variables or anything outside it's scope (no state mutation)
+- modyfing it's input
 - writing to a file
+- I/O operations
 
 A program that has no side effects is effectively useless.
-But we should
+
+# References vs Copies
+
+Works almost like in js
+Collections are passed as references, `except tuples!`.
+
+When you pass a value into a function as an argument, one of two things can happen:
+
+It's passed by reference: The function has access to the original value and can change it.  
+It's passed by value: The function only has access to a copy. Changes to the copy within the function don't affect the original.
+
+These types are passed by reference:
+
+Lists  
+Dictionaries  
+Sets  
+These types are passed by value:
+
+Integers  
+Floats  
+Strings  
+Booleans  
+Tuples
+
+Reference:
+
+```py
+def modify_list(inner_lst):
+    inner_lst.append(4)
+    # the original "outer_lst" is updated
+    # because inner_lst is a reference to the original
+
+outer_lst = [1, 2, 3]
+modify_list(outer_lst)
+# outer_lst = [1, 2, 3, 4]
+```
+
+No reference
+
+```py
+
+def attempt_to_modify(inner_num):
+    inner_num += 1
+    # the original "outer_num" is not updated
+    # because inner_num is a copy of the original
+
+outer_num = 1
+attempt_to_modify(outer_num)
+# outer_num = 1
+```
+
+# obj.copy()
+
+A way to avoid mutating original object.
+
+```py
+def add_format(default_formats, new_format):
+    updated = default_formats.copy()
+    updated[new_format] = True
+    return updated
+```
+
+# I/O
+
+The term "i/o" stands for input/output. In the context of writing programs, i/o refers to anything in our code that interacts with the "outside world". "Outside world" just means anything that's not stored in our application's memory (like variables).
+
+All i/o is a form of "side effect". (including print)
+
+In functional programming, i/o is viewed as dirty but necessary.
+
+# No-Op
+
+`Operation that does nothing`
+
+If a function doesn't return anything it is probably impure, and is performing some side effects.
+
+No-Op example:
+
+```py
+def square(x):
+    x * x
+```
+
+Side effect example:
+
+```py
+myGlobal = 0
+
+def impure(x):
+    global myGlobal
+    myGlobal + x
+```
+
+The global keyword just tells Python to allow modification of the outer-scoped y variable.
+
+# Memoization
+
+In simple terms memoization is basically storing a copy (caching) of a result of a computation so that we don't have to calculate it again int the future.
+
+```py
+
+def word_count_memo(document, memos):
+    memosCopy = memos.copy()
+
+    # Avoid counting again
+    if document in memosCopy:
+        return memosCopy[document], memosCopy
+
+    count = word_count(document)
+    memosCopy[document] = count
+    return count, memosCopy
+
+def word_count(document):
+    count = len(document.split())
+    return count
+```
+
+`Pure functions always can be safely memoized and impure can't`
+That is why we have dependency array to recalculate memoized val when using useMemo() in React.
+
+`Memoization is not free` - there is always a trade off between using RAM memory and speed. If function is fast enough it should'nt
+
+# Referential Transparency
+
+Pure functions are always referentialy transparent meaning that pure functions can always be replaced by it's would be return value. Since this value is always the same every time.
+
+For example:
+
+```py
+add(2, 3)
+```
+
+Can simply be replaced with 5
+
+# str to arr
+
+```py
+str = 'str'
+print(list(str))
+```
+
+# sorted with a function
+
+This will be performed on each item
+the transformation is only temporary for sorting. The key parameter in sorted() creates a "sort key" - it transforms each element just enough to make comparisons work, but returns the original elements in the sorted order.
+
+```py
+def transform_date(date_str):
+    month, day, year = date_str.split("-")  # "07-21-2023" -> ["07", "21", "2023"]
+    return year + month + day               # -> "20230721"
+
+def sort_dates(dates):
+    # sorted() calls transform_date on each date to get sort keys:
+    # '07-21-2023' -> '20230721'
+    # '12-25-2022' -> '20221225'
+    # '01-01-2023' -> '20230101'
+    # etc.
+
+    # It sorts by these keys, then returns the ORIGINAL date strings
+    return sorted(dates, key=transform_date)
+```
