@@ -331,3 +331,30 @@ evens = list(filter(lambda x: x % 2 == 0, numbers))
 print(evens)
 # [2, 4, 6]
 ```
+
+# functools.reduce()
+
+- it needs to be imported before use
+- takes two arguments
+
+```py
+import functools
+def add(sum_so_far, x):
+    print(f"{sum_so_far}, x: {x}")
+    return sum_so_far + x
+
+numbers = [1, 2, 3, 4]
+sum = functools.reduce(add, numbers)
+
+print(sum)
+```
+
+lambda version
+💡 In python labda version can only contain single expression!
+It means that I can't for example print something and than return like I could in a js callback
+
+```py
+number = [1, 2, 3, 4 ]
+sum = functools.reduce(lambda: a, b: a + b, number)
+
+```

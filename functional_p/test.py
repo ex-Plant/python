@@ -1,6 +1,11 @@
-def square(x):
-    return x * x
+import functools
+# def add(sum_so_far, x):
+#     print(f"{sum_so_far}, x: {x}")
+#     return sum_so_far + x
 
-nums = [1, 2, 3, 4]
-squared_nums = map(square, nums)
-print(list(squared_nums))
+numbers = [1, 2, 3, 4]
+sum = functools.reduce(lambda acc, b: acc + b, numbers)
+
+# print(sum)
+
+
