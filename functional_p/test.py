@@ -1,5 +1,19 @@
-a = [1, 2, 3, 4, ]
-b = [1, 2, 3, 4, 5, 6]
+def binary_search(arr, target):
+    arr.sort()    
+    low = 0
+    high = len(arr) - 1
 
-c = list(zip(a,b))
-print(c)
+    while low >= low:
+        median = (high + low) // 2
+        if arr[median] == target:
+            return True
+        if arr[median] > target:
+            low = median
+        else:
+            high = median
+    return False
+
+
+val = binary_search([1, 2, 3, 4, 5], 24) 
+
+print(val) # false

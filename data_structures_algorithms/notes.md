@@ -372,3 +372,28 @@ Do the following:
    Return False
 
 At each iteration of loop, we halve the list. Which makes the algorithm O(log(n)). In other words, to add one more step to the runtime, we'd have to double the size of the input. Binary searches are fast.
+
+binary search `requires comparable types` - you can't mix integers and strings.
+Why? Binary search relies on comparison operators (<, >, ==) between the target and array elements. Python doesn't allow direct comparison between incompatible types
+
+```py
+def binary_search(arr, target):
+    arr.sort()
+    low = 0
+    high = len(arr) - 1
+
+    while low >= low:
+        median = (high + low) // 2
+        if arr[median] == target:
+            return True
+        if arr[median] > target:
+            low = median
+        else:
+            high = median
+    return False
+
+
+val = binary_search([1, 2, 3, 4, 5], 24)
+
+print(val) # false
+```
