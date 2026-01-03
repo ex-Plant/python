@@ -384,3 +384,62 @@ Take to iterables and combine them into a new iterable where each element is a t
     c = list(zip(a,b))
     # [(1, 1), (2, 2), (3, 3)]
 ```
+
+# type(variable)
+
+Returns a type of a variable
+
+# sort() vs sorted()
+
+arr.sort() - mutates original arr
+arr.sorted() - returns sorted arr
+
+# Pure functions
+
+In majority of situations you want to use pure functions.
+
+- `Always return the same values given the same arguments`
+- `Cause no side effects`
+
+Thanks to this they are predictible, easy to debug, always work the same.
+No `works on my machine problem`
+
+Example of pure function
+
+```python
+def add(x, y):
+    return x + y
+    # same result every time
+```
+
+Example of unpure function:
+
+```python
+
+total = 0
+def dirty_add(x):
+    global total # this is necessary to access global variable in python
+    total = total + x
+    return total
+
+print(dirty_add(10)) # 10
+print(dirty_add(10)) # 20
+print(dirty_add(10)) # 30
+    # different result every time, updating global value
+```
+
+So why we need to use unpure functions sometimes?
+Because we need side effects every now and then.
+
+# Side Effects include:
+
+`Anything that the function does, except returning a value`
+
+- printing to the console
+- updating db
+- accessing internet
+- modyfing global variables
+- writing to a file
+
+A program that has no side effects is effectively useless.
+But we should

@@ -1,19 +1,11 @@
-def binary_search(arr, target):
-    arr.sort()    
-    low = 0
-    high = len(arr) - 1
+total = 0
+def dirty_add(x):
+    total = total + x
 
-    while low >= low:
-        median = (high + low) // 2
-        if arr[median] == target:
-            return True
-        if arr[median] > target:
-            low = median
-        else:
-            high = median
-    return False
+    return total
+    # different result every time
 
 
-val = binary_search([1, 2, 3, 4, 5], 24) 
-
-print(val) # false
+print(dirty_add(10))
+print(dirty_add(10))
+print(dirty_add(10))
