@@ -358,3 +358,29 @@ number = [1, 2, 3, 4 ]
 sum = functools.reduce(lambda: a, b: a + b, number)
 
 ```
+
+# zip
+
+Take to iterables and combine them into a new iterable where each element is a tuple containig one element from each of the original iterables
+
+```py
+    a = [1, 2, 3]
+    b = [1, 2, 3]
+
+
+    c = list(zip(a,b))
+    # [(1, 1), (2, 2), (3, 3)]
+```
+
+💡 Iterables has to be of the same len, if this is not the case, returned element will only return elements where a pair can actually be created:
+
+```py
+    a = [1, 2, 3, 4, 5]
+    b = [1, 2, 3]
+
+    zipped = zip(a,b)
+    # print(type(zipped)) # <class 'zip'>
+
+    c = list(zip(a,b))
+    # [(1, 1), (2, 2), (3, 3)]
+```

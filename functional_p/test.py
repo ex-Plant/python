@@ -1,11 +1,5 @@
-import functools
-# def add(sum_so_far, x):
-#     print(f"{sum_so_far}, x: {x}")
-#     return sum_so_far + x
+a = [1, 2, 3, 4, ]
+b = [1, 2, 3, 4, 5, 6]
 
-numbers = [1, 2, 3, 4]
-sum = functools.reduce(lambda acc, b: acc + b, numbers)
-
-# print(sum)
-
-
+c = list(zip(a,b))
+print(c)

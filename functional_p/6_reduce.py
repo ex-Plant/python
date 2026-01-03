@@ -43,3 +43,6 @@ def join_first_sentences(sentences, n):
     if n == 0:
         return ""
     return functools.reduce(lambda acc, b: acc + ". " + b , sentences[:n]) + "."
+
+
+
