@@ -344,9 +344,9 @@ def add(sum_so_far, x):
     return sum_so_far + x
 
 numbers = [1, 2, 3, 4]
-sum = functools.reduce(add, numbers)
+total = functools.reduce(add, numbers)
 
-print(sum)
+print(total)
 ```
 
 lambda version
@@ -355,7 +355,7 @@ It means that I can't for example print something and than return like I could i
 
 ```py
 number = [1, 2, 3, 4 ]
-sum = functools.reduce(lambda: a, b: a + b, number)
+total = functools.reduce(lambda a, b: a + b, number)
 
 ```
 
@@ -605,3 +605,5 @@ def sort_dates(dates):
     # It sorts by these keys, then returns the ORIGINAL date strings
     return sorted(dates, key=transform_date)
 ```
+
+# recursion
