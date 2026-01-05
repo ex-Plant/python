@@ -21,16 +21,12 @@ def markdown_to_text_decorator(func):
         return func(*stripped_args, **newD)
     return wrapper
 
-
-
 def convert_md_to_txt(doc):
     lines = doc.split("\n")
     for i in range(len(lines)):
         line = lines[i]
         lines[i] = line.lstrip("# ")
     return "\n".join(lines)
-
-
 
 @markdown_to_text_decorator
 def concat(first_doc, second_doc):
