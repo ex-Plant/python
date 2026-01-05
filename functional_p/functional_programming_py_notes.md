@@ -590,7 +590,7 @@ print(list(str))
 This will be performed on each item
 the transformation is only temporary for sorting. The key parameter in sorted() creates a "sort key" - it transforms each element just enough to make comparisons work, but returns the original elements in the sorted order.
 
-```py
+```p6
 def transform_date(date_str):
     month, day, year = date_str.split("-")  # "07-21-2023" -> ["07", "21", "2023"]
     return year + month + day               # -> "20230721"
@@ -607,3 +607,164 @@ def sort_dates(dates):
 ```
 
 # recursion
+
+# decorators
+
+Basically a `syntactic sugar around function transformations` (returning a function by another function)
+
+```py
+def vowel_counter(func_to_decorate):
+    vowel_count = 0
+    def wrapper(doc):
+        nonlocal vowel_count
+        vowels = "aeiou"
+        for char in doc:
+            if char.lower() in vowels:
+                vowel_count += 1
+        print(f"Vowel count: {vowel_count}")
+        return func_to_decorate(doc)
+    return wrapper
+
+
+# 1. Without decorator
+def myFoo(val):
+    print(val)
+
+tt = vowel_counter(myFoo)
+tt('sialalalalala ')
+#Vowel count: 7
+# sialalalalala 🍆
+
+# 2. With decorator
+@vowel_counter
+def myFooIsNowDecorated(val):
+    print(val)
+
+myFooIsNowDecorated('sialalala 🍆')
+# Vowel count: 5
+# sialalala 🍆
+```
+
+# args and kwargs
+
+`*args` - collects positional arguments into a tuple (order matters)
+`**kwargs` - collects keyword (named) arguments into a dictionary
+
+```py
+def print_arguments(*args, **kwargs):
+    print(f"Positional arguments: {args}")
+    print(f"Keyword arguments: {kwargs}")
+
+print_arguments("hello", "world", a=1, b=2)
+# Positional arguments: ('hello', 'world')
+# Keyword arguments: {'a': 1, 'b': 2}
+```
+
+`Positional arguments` - args where order of args matter, switching order might result in a different output
+
+```py
+def sub(a, b):
+    return a - b
+
+# a=3, b=2
+res = sub(3, 2)
+# res = 1
+
+```
+
+`Keyword args` - passed by name, `order does not matter`
+
+```py
+def sub(a, b):
+    return a - b
+
+res = sub(b=3, a=2)
+# res = -1
+res = sub(a=3, b=2)
+# res = 1
+```
+
+❗️ Any positional args must come before keyword args.
+
+```py
+# ❌ This will not work:
+res = sub(b=3, 2)
+```
+
+# enumerate
+
+If we are looping over an iterable and we need access to index we can use enumerate:
+
+```py
+   for index, item in enumerate(args):
+        print(f"{index + 1}. {item}")
+```
+
+Or we can use range, but enumerate is more readable
+
+```py
+for i in range(len(args)):
+        print(f"Index: {i}, Item: {args[i]}")
+```
+
+Enumarate is better because:
+No manual indexing: Direct access to both index and item
+No length calculation: More efficient for large iterables
+Immutable pairs: Can't accidentally modify the wrong element
+Cleaner syntax: Expresses intent more clearly
+
+# sorting by key
+
+```py
+dict = {"key": "val"}
+sorted_by_key = sorted(dict.keys())
+```
+
+# tuple unpacking
+
+```py
+tuple = ("Konrad", "Antonik", "Scholar level 55")
+print(*tuple)
+# Konrad Antonik Scholar level 55
+```
+
+# dict unpacking
+
+❌ This will not work
+Print does not have a name method
+
+```py
+my_dict = {"name": "Konrad", "age": 38}
+
+print(**my_dict)
+```
+
+Dictionary unpacking with `**` converts the dict keys into keyword arguments for the function call.
+
+✅ this will work - functions accepts those keywords
+
+```py
+def greet(name, age):
+    print(f"Hello {name}, you are {age}")
+
+my_dict = {"name": "Konrad", "age": 38}
+greet(**my_dict)  # Works: equivalent to greet(name="Konrad", age=38)
+```
+
+# dict()
+
+Transforms a key val pairs into dictionary
+
+```py
+# List of tuples
+dict([('a', 1), ('b', 2)])
+
+# List of lists
+dict([['a', 1], ['b', 2]])
+
+# Tuple of tuples
+dict((('a', 1), ('b', 2)))
+
+# Mixed sequences
+dict([['a', 1], ('b', 2)])
+```
