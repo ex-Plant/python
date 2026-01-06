@@ -808,9 +808,92 @@ def new_collection(initial_docs):
     deep_copy = copy.deepcopy(initial_styles)
 ```
 
+# currying
+
+`Function transformation where we transform a single function that accepts mutliple arguments into multiple functions that each accepts a single argument`
+
+```py
+def sum(a, b):
+  return a + b
+
+print(sum(1, 2))
+# prints 3
+```
+
+Curried:
+
+```py
+def sum(a):
+  def inner_sum(b):
+    return a + b
+  return inner_sum
+
+print(sum(1)(2))
+# prints 3
+```
+
+Reasons for currying
+
+- Changing function signature to make it conform to a specific shape for example requrired by some external tool
+
+```py
+def colorize(converter, doc):
+  # ...
+  converter(doc)
+  # ...
+```
+
+The colorize function accepts a function called converter as input, and at some point during its execution, it calls converter with a single argument. That means that it expects converter to accept exactly one argument. So, if I have a conversion function like this:
+
+```py
+
+def markdown_to_html(doc, asterisk_style):
+  # ...
+```
+
+I can't pass markdown_to_html to colorize because markdown_to_html wants two arguments. To solve this problem, I can curry markdown_to_html into a function that takes a single argument:
+
+```py
+def markdown_to_html(asterisk_style):
+  def asterisk_md_to_html(doc):
+    # do stuff with doc and asterisk_style...
+
+  return asterisk_md_to_html
+
+markdown_to_html_italic = markdown_to_html('italic')
+colorize(markdown_to_html_italic, doc)
+```
+
+Is not used very often though.
+
+We can also store curried function calls in separate variables
+
+```py
+
+def box_volume(length):
+  def box_volume_with_len(width):
+    def box_volume_with_len_width(height):
+      return length * width * height
+    return box_volume_with_len_width
+  return box_volume_with_len
+
+
+final_volume = box_volume(3)(4)(5)
+print(final_volume)
+# 60
+
+with_length_3 = box_volume(3)
+with_len_3_width_4 = with_length_3(4)
+final_volume = with_len_3_width_4(5)
+print(final_volume)
+# 60
+
+```
+
 # decorators
 
-Basically a `syntactic sugar around function transformations` (returning a function by another function)
+Basically a `syntactic sugar around function transformations` (returning a function by another function).  
+It is an often simpler way of writing higher order function.
 
 ```py
 def vowel_counter(func_to_decorate):
@@ -1025,6 +1108,139 @@ print_input("Keep Calm and Carry On")
 Observe that to_uppercase wrapped get_truncate(9), and get_truncate(9) returned truncate which wrapped print_input, then print_input printed "KEEP CALM" from "Keep Calm and Carry On".
 
 # Sum types
+
+We can reduce the number of cases our code needs to handle by using a (admittedly fake Pythonic) sum type with only 3 possible types.
+
+Then we can use the isinstance built-in function to check if a Person is an instance of one of the subclasses. It's a clunky way to represent sum types, but hey, it's Python.
+
+```py
+class Person:
+    def __init__(self, name):
+        self.name = name
+
+class Dateable(Person):
+    pass
+
+class MaybeDateable(Person):
+    pass
+
+class Undateable(Person):
+    pass
+
+def respond_to_text(guy_at_bar):
+    if isinstance(guy_at_bar, Dateable):
+        return f"Hey {guy_at_bar.name}, I'd love to go out with you!"
+    elif isinstance(guy_at_bar, MaybeDateable):
+        return f"Hey {guy_at_bar.name}, I'm busy but let's hang out sometime later."
+    elif isinstance(guy_at_bar, Undateable):
+        return "Have you tried being rich?"
+    else:
+        raise ValueError("invalid person type")
+
+```
+
+This works as a python way of type checking but better way is to use Enums
+
+# Enums
+
+```py
+from enum import Enum
+
+Color = Enum('Color', ['RED', 'GREEN', 'BLUE'])
+print(Color.RED)  # this works, prints 'Color.RED'
+print(Color.TEAL) # this raises an exception
+
+
+Doctype = Enum('Doctype', ['PDF', 'TXT', 'DOCX', 'MD', 'HTML'])
+
+```
+
+1. A "Color" can only be RED, GREEN, or BLUE. If you try to use Color.TEAL, Python raises an exception.
+2. There is a central place to see the "valid" values for a Color.
+3. Each "Color" has a "name" (e.g. Color.RED) and a "value" (e.g. 1). The value is an integer and is used under the hood instead of the name. Integers take up less memory than strings, which helps with performance.
+
+Python does not enforce your types before your code runs. That's why we need this line here to raise an Exception if a color is invalid:
+
+```python
+def color_to_hex(color):
+    if color == Color.GREEN:
+        return '#00FF00'
+    elif color == Color.BLUE:
+        return '#0000FF'
+    elif color == Color.RED:
+        return '#FF0000'
+    # handle the case where the color is invalid
+    raise Exception('unknown color')
+```
+
+# Match
+
+```py
+Color = Enum("Color", ["RED", "GREEN", "BLUE"])
+
+def get_hex(color):
+    match color:
+        case Color.RED:
+            return "#FF0000"
+        case Color.GREEN:
+            return "#00FF00"
+        case Color.BLUE:
+            return "#0000FF"
+
+        # default case
+        # (invalid Color)
+        case _:
+            return "#FFFFFF"
+```
+
+Matching two values using a tuple
+
+```py
+def get_hex(color, shade):
+    match (color, shade):
+        case (Color.RED, Shade.LIGHT):
+            return "#FFAAAA"
+        case (Color.RED, Shade.DARK):
+            return "#AA0000"
+        case (Color.GREEN, Shade.LIGHT):
+            return "#AAFFAA"
+        case (Color.GREEN, Shade.DARK):
+            return "#00AA00"
+        case (Color.BLUE, Shade.LIGHT):
+            return "#AAAAFF"
+        case (Color.BLUE, Shade.DARK):
+            return "#0000AA"
+
+        # default case
+        # (invalid combination)
+        case _:
+            return "#FFFFFF"
+```
+
+Witch class
+
+```py
+from enum import Enum
+
+class DocFormat(Enum):
+    PDF = 1
+    TXT = 2
+    MD = 3
+    HTML = 4
+
+def convert_format(content, from_format, to_format):
+    match (from_format, to_format):
+        case(DocFormat.MD, DocFormat.HTML):
+                return content.replace('# ','<h1>') + '</h1>'
+        case(DocFormat.TXT, DocFormat.PDF):
+                return '[PDF] ' + content  + ' [PDF]'
+        case(DocFormat.HTML, DocFormat.MD):
+            return content.replace('<h1>', '# ').replace('</h1>', '')
+        case _:
+            raise Exception('invalid type')
+```
+
+Equivalent of switch in js
 
 # list.extend()
 
