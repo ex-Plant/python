@@ -671,8 +671,142 @@ isinstance(item, list):
 
 # .split(maxsplit=int)
 
+# function transformations
+
+A specific type of higher order function - `a function that takes another function as an argument nad returns a new function.`
+
+```py
+def multiply(x, y):
+    return x * y
+
+def add(x, y):
+    return x + y
+
+# self_math is a higher order function
+# input: a function that takes two arguments and returns a value
+# output: a new function that takes one argument and returns a value
+def self_math(math_func):
+    def inner_func(x):
+        return math_func(x, x)
+    return inner_func
+
+square_func = self_math(multiply)
+double_func = self_math(add)
+
+print(square_func(5))
+# prints 25
+
+print(double_func(5))
+# prints 10
+```
+
 You can use .split with maxsplit=1.
 That will split a string into a list of [first_word, rest_of_string]
+
+Why would we even want to use function transformations?
+In most cases it's because we wamnt to share some funcionality.
+
+This formatter function. It accepts a "pattern" and returns a new function that formats text according to that pattern. Without it we would have to create three separate functions.
+
+❗️Not necessarily but it is more flexible
+When single function makes more sense:
+When patterns are dynamic or user-provided
+When you don't need to create multiple specialized functions
+When simplicity is preferred over partial application
+
+```py
+def formatter(pattern):
+    def inner_func(text):
+        result = ""
+        i = 0
+        while i < len(pattern):
+            if pattern[i:i+2] == '{}':
+                result += text
+                i += 2
+            else:
+                result += pattern[i]
+                i += 1
+        return result
+    return inner_func
+
+bold_formatter = formatter("**{}**")
+italic_formatter = formatter("*{}*")
+bullet_point_formatter = formatter("* {}")
+
+print(bold_formatter("Hello"))
+# **Hello**
+print(italic_formatter("Hello"))
+# *Hello*
+print(bullet_point_formatter("Hello"))
+# * Hello
+```
+
+`90 % of times we want to use function transformations to create closures`.
+
+# closures
+
+`Function that references variables from outside this function body.`
+Put simply, a closure is just a function that keeps track of some values from the place where it was defined, no matter where it is executed later on.
+
+`The whole point of a closure is that it's stateful`. It's a function that "remembers" the values from the enclosing scope even after the enclosing scope has finished executing.
+
+It's as if you're saving the state of a function at a particular point in time, and then you can use and update that state later on.
+
+The concatter() function returns a function called doc_builder (yay higher-order functions!) that has a reference to an enclosed doc value.
+
+```py
+def concatter():
+	doc = ""
+	def doc_builder(word):
+		# "nonlocal" tells Python to use the 'doc'
+		# variable from the enclosing scope
+		nonlocal doc
+		doc += word + " "
+		return doc
+	return doc_builder
+
+# save the returned 'doc_builder' function
+# to the new function 'harry_potter_aggregator'
+harry_potter_aggregator = concatter()
+harry_potter_aggregator("Mr.")
+harry_potter_aggregator("and")
+harry_potter_aggregator("Mrs.")
+harry_potter_aggregator("Dursley")
+harry_potter_aggregator("of")
+harry_potter_aggregator("number")
+harry_potter_aggregator("four,")
+harry_potter_aggregator("Privet")
+
+print(harry_potter_aggregator("Drive"))
+# Mr. and Mrs. Dursley of number four, Privet Drive
+```
+
+When concatter() is called, it creates a new "stateful" function that remembers the value of its internal doc variable. Each successive call to harry_potter_aggregator appends to that same doc.
+
+`nonlocal`
+Python has a keyword called `nonlocal that's required to modify a variable from an enclosing scope`. Most programming languages don't require this keyword, but Python does.
+When variable is mutable we do not use nonlocal - we are simply changing referenced obj.
+nonlocal keyword if you are reassigning a variable instead of modifying its contents (which you must do to change immutable values such as strings and integers).
+
+No nonlocal needed:
+
+```py
+def new_collection(initial_docs):
+    init_copy = initial_docs.copy()
+    def foo(str):
+        init_copy.append(str)
+        return init_copy
+    return foo
+
+```
+
+# copy.deepcopy()
+
+.copy() method will produce a shallow copy - if we need we can use deepcopy() instead.
+
+```py
+    deep_copy = copy.deepcopy(initial_styles)
+```
 
 # decorators
 
