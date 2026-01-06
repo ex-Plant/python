@@ -356,7 +356,6 @@ It means that I can't for example print something and than return like I could i
 ```py
 number = [1, 2, 3, 4 ]
 total = functools.reduce(lambda a, b: a + b, number)
-
 ```
 
 # zip
@@ -793,4 +792,45 @@ factorial_r(5)  # just looks up cached value result
 # 120
 factorial_r(12) # makes two new recursive calls, the other 11 are cached
 # 479001600
+```
+
+# stacking decorators + currying
+
+```py
+def to_uppercase(func):
+    def wrapper(document):
+        return func(document.upper())
+
+    return wrapper
+
+def get_truncate(length):
+    def truncate(func):
+        def wrapper(document):
+            return func(document[:length])525416
+
+        return wrapper
+
+    return truncate
+
+@to_uppercase
+@get_truncate(9) # currying
+def print_input(input):
+    print(input)
+
+print_input("Keep Calm and Carry On")
+# prints: "KEEP CALM"
+```
+
+Observe that to_uppercase wrapped get_truncate(9), and get_truncate(9) returned truncate which wrapped print_input, then print_input printed "KEEP CALM" from "Keep Calm and Carry On".
+
+# Sum types
+
+# list.extend()
+
+Add elements to the list
+
+```py
+list1 = [1, 2]
+list1.extend([3, 4])  # list1 is now [1, 2, 3, 4]
+
 ```
