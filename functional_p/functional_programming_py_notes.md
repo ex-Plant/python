@@ -620,15 +620,6 @@ def sum_nums(nums):
 print(sum_nums([1, 2, 3, 4, 5]))
 # 15
 
-foo_countdown(10)
-```
-
-Recursion is fundamental to functional programming because we do not have to create stateful loops!  
-It is also super useful when we have nested objects and we do not know how deep the nesting is.
-
-`Base case` - without it recursive function calls would just create a `stack overflow`.
-
-```py
 
 def foo_countdown(x):
     # base case
@@ -636,7 +627,52 @@ def foo_countdown(x):
         return
     print(x)
     foo_countdown(x-1)
+
+
 ```
+
+`Base case` - without it recursive function calls would just create a `stack overflow`.
+
+Recursion is fundamental to functional programming because we do not have to create stateful loops!
+
+Recursion is often used in "tree-like" structures. For example:
+
+Nested dictionaries
+File systems
+HTML documents
+JSON objects
+
+If iterating over a one-dimensional list then a loopis typically simpler, even if it's not as "pure" in the academic sense.  
+That's because trees can have unknown depth. It's hard to write a series of loops because you don't know how many levels deep the tree goes.
+
+```py
+for item in tree:
+    for nested_item in item:
+        for nested_nested_item in nested_item:
+            for nested_nested_nested_item in nested_nested_item:
+                # ... WHEN DOES IT END???
+```
+
+# Stack Overflow
+
+Stack Overflow: Each function call requires a bit of memory. So, if you recurse too deeply, you can run out of "stack" memory which will crash your program. (This is what the famous website is named after)
+
+If you don't have a solid base case, you can end up in an infinite loop (which will likely lead to a stack overflow).
+
+Recursion (especially in a language like Python) is often slower than a for loop because each function call requires some memory.
+
+# isinstance()
+
+Returns true if an element is an instance of a certain type
+
+```py
+isinstance(item, list):
+```
+
+# .split(maxsplit=int)
+
+You can use .split with maxsplit=1.
+That will split a string into a list of [first_word, rest_of_string]
 
 # decorators
 
